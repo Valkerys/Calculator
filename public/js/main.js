@@ -1,17 +1,30 @@
- var config = {
-    apiKey: 'AIzaSyCFYB7fU5x_j0qG1sCwZ2caL1kQQ1JHNTU',
-    authDomain: 'calculator-53ab0.firebaseapp.com',
-    projectId: 'calculator-53ab0'
- }
+var config = {
+apiKey: 'AIzaSyCFYB7fU5x_j0qG1sCwZ2caL1kQQ1JHNTU',
+authDomain: 'calculator-53ab0.firebaseapp.com',
+projectId: 'calculator-53ab0'
+}
 
- firebase.initializeApp(config);
+firebase.initializeApp(config);
 
- var db = firebase.firestore();
+var db = firebase.firestore();
+
+function renderCalc(doc) {
+    let li = document.createElement('li');
+    let calculation = document.createElement('span');
+
+    li.setAttribute('data-id', doc.id);
+    calculation.textContent = doc.data().calculation;
+
+    li.appendChild(calculation);
+    calculation.appendChild(document.createElement("br"));
+
+    document.querySelector('#calc-list').appendChild(calculation);
+} 
 
 function callDb() {
-    db.collection("calcualtions").get().then((querySnapshot) => {
+    db.collection("calcualtions").orderBy("timestamp", "desc").limit(10).get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
+            renderCalc(doc);
         });
     });
 }
@@ -19,7 +32,8 @@ function callDb() {
 function addCalculation() {
     var data = document.getElementById("solution").innerHTML;
     db.collection("calcualtions").add({
-        calculation: data
+        calculation: data,
+        timestamp: Date.now()
     })
     .then(function(docRef) {
         console.log("Calculation as been added. ID is: ", docRef.id);
