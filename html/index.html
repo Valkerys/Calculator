@@ -21,9 +21,9 @@
         <h1>Enter your calcualtions header</h1>
         <br>
         <form action="calculation">
-          <input type="text">
+          <input type="text" id="values" oninput="calculateValues()">
           <br><br>
-          <div>Value</div>
+          <p id="solution"></p>
           <br>
         </form>
         <input type="button" value="Submit" class="button">
@@ -50,32 +50,72 @@
   </div>
 
 <script>
-    // Get the modal
-    var modal = document.getElementById("myModal");
 
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
+  function calculateValues() {
+    var inputValues = document.getElementById('values').value;
     
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    
-    // When the user clicks the button, open the modal 
-    btn.onclick = function() {
-      modal.style.display = "block";
-    }
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
-    
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
+    var addition = false;
+    var substraction = false;
+    var multiplication = false;
+    var division = false;
+
+    var operatorWatch = false;
+
+    var solution = 0;
+    var actualNumber = 0;
+    var finalOutput = 0;
+
+    var solutionHolder = solution;
+
+    var i;
+    for(i = 0; i < inputValues.length; i++) {
+
+      var cases = inputValues.charCodeAt(i);
+      switch(cases) {
+        case '+'.charCodeAt(0):
+          addition = true;
+          operatorWatch = true;
+          break;
+        case '-'.charCodeAt(0):
+          substraction = true;
+          operatorWatch = true;
+          break;
+        case '_'.charCodeAt(0):
+          multiplication = true;
+          operatorWatch = true;
+          break;
+        case '/'.charCodeAt(0):
+          division = true;
+          operatorWatch = true;
+          break; 
+        default:
+          actualNumber = inputValues.charCodeAt(i) - "0".charCodeAt(0);
+          if(operatorWatch == false) {
+            solutionHolder = solutionHolder*10 + actualNumber;
+          } else {
+            solution = solution*10 + actualNumber;
+          }
       }
     }
-    </script>
+
+    if(addition == true) {
+      finalOutput = solutionHolder + solution;
+    }
+    else if(substraction == true) {
+      finalOutput = solutionHolder - solution;
+    }
+    else if(multiplication == true) {
+      finalOutput = solutionHolder * solution;
+    }
+    else {
+      finalOutput = solutionHolder / solution;
+    }
+
+    document.getElementById("solution").innerHTML = "The solution is: " +  finalOutput;
+
+  }
+
+</script>
 
   </body>
 </html>
