@@ -36,7 +36,7 @@ function addCalculation() {
         timestamp: Date.now()
     })
     .then(function(docRef) {
-        console.log("Calculation as been added. ID is: ", docRef.id);
+        location.reload();
     })
     .catch(function(error) {
         console.error("Error adding calcualtion: ", error);
