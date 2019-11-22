@@ -21,7 +21,7 @@ p {
 	font-family: Poppins-Regular;
 	font-size: 14px;
 	line-height: 1.7;
-	color: #666666;
+	color: black;
 	margin: 0px;
 }
 
@@ -64,10 +64,3 @@ ul, li {
   border: none;
   padding: 15px 32px;
 }
-
-.box {
-  
-}
-
-
-

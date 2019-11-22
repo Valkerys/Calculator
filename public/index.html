@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="author" content="Carlos Espinoza">
+    <!-- Title for whats written on the tab. -->
+    <title>Calculator</title>
+    <!-- CSS Style sheet -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="js" href="js/main.js">
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
+  </head>
+  <body>
+    <header>      
+      <div class="header">
+        <h1>Calculator Website</h1>
+      </div>
+    </header>
+    
+      <!-- Just a simple header. -->
+      <div class="container">
+        <h1>Enter your calcualtions header</h1>
+        <br>
+        <form action="calculation">
+          <!-- Input field where everytime something is put in, it calls on the calculateValues function. -->
+          <input type="text" id="values" oninput="calculateValues()">
+          <br><br>
+          <!-- Post solution. -->
+          <p id="solution"></p>
+          <br>
+        </form>
+
+        <script src="js/main.js"></script>
+        <!-- This button should add the entry to the board. -->
+        <input id="submitButton" type="button" value="Submit" class="button" onclick="addCalculation()">
+      
+      <br><br>
+
+      <body onload="onLoadCall()"></body>
+      <div>Output 1</div>
+      <div>Output 2</div>
+      <div>Output 3</div>
+      <div>Output 4</div>
+      <div>Output 5</div>
+      <div>Output 6</div>
+      <div>Output 7</div>
+      <div>Output 8</div>
+      <div>Output 9</div>
+      <div>Output 10</div>
+
+    </div>
+
+
+  <div>
+    <footer class="footer">
+      <p>Calculator Website &copy; 2019</p>
+    </footer>
+  </div>
+
+<script>
+
+  function calculateValues() {
+    var inputValues = document.getElementById('values').value;
+    
+    var addition = false;
+    var substraction = false;
+    var multiplication = false;
+    var division = false;
+
+    // This variable checks if the character is a operator.
+    var operatorWatch = false;
+
+    var solution = 0;
+    var actualNumber = 0;
+    var finalOutput = 0;
+
+    var solutionHolder = solution;
+
+    var i;
+    for(i = 0; i < inputValues.length; i++) {
+
+      var cases = inputValues.charCodeAt(i);
+      // Switch cases to check if the character is an operator or a number.
+      switch(cases) {
+        case '+'.charCodeAt(0):
+          addition = true;
+          operatorWatch = true;
+          break;
+        case '-'.charCodeAt(0):
+          substraction = true;
+          operatorWatch = true;
+          break;
+        case '_'.charCodeAt(0):
+          multiplication = true;
+          operatorWatch = true;
+          break;
+        case '/'.charCodeAt(0):
+          division = true;
+          operatorWatch = true;
+          break; 
+        default:
+          actualNumber = inputValues.charCodeAt(i) - "0".charCodeAt(0);
+          if(operatorWatch == false) {
+            // Reason this is being multiplied by ten is because if we have a number such as 12, its two numbers being followed
+            // one after the other therefore the number is 12, so it needs to first multiply 1 by 10 and then add 2.
+            solutionHolder = solutionHolder*10 + actualNumber;
+          } else {
+            solution = solution*10 + actualNumber;
+          }
+      }
+    }
+
+    if(addition == true) {
+      finalOutput = solutionHolder + solution;
+    }
+    else if(substraction == true) {
+      finalOutput = solutionHolder - solution;
+    }
+    else if(multiplication == true) {
+      finalOutput = solutionHolder * solution;
+    }
+    else {
+      finalOutput = solutionHolder / solution;
+    }
+
+    document.getElementById("solution").innerHTML = inputValues + ' = ' + finalOutput;
+
+  }
+
+</script>
+  
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.5.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="/__/firebase/7.5.0/firebase-analytics.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+
+  </body>
+</html>
